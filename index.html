@@ -1073,7 +1073,7 @@ async function handleUpgrade(planType) {
         b.innerHTML = '<span class="spinner"></span>&nbsp; Loading...';
         b.style.opacity = '0.75';
     });
-    var BACKEND = 'https://smartcrick-backendsmartcrick-backen.vercel.app';
+    var BACKEND = 'https://smartcrick-backend-kgya.vercel.app';
     try {
         var res = await fetch(BACKEND + '/api/create-checkout-session', {
             method: 'POST',
@@ -1180,7 +1180,7 @@ async function handleContinue() {
     btn.innerHTML = '<span class="spinner"></span>&nbsp; Sending OTP...';
     btn.disabled = true;
     try {
-        var response = await fetch('https://smartcrick-backendsmartcrick-backen.vercel.app/api/send-otp', {
+        var response = await fetch('https://smartcrick-backend-kgya.vercel.app/api/send-otp', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify({ email: email, otp: generatedOTP }),
@@ -1248,7 +1248,7 @@ async function handleVerify() {
 async function handleResend() {
     generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
     try {
-        var r = await fetch('https://smartcrick-backendsmartcrick-backen.vercel.app/api/send-otp', {
+        var r = await fetch('https://smartcrick-backend-kgya.vercel.app/api/send-otp', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: email, otp: generatedOTP })
         });
