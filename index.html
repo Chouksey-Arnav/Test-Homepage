@@ -991,7 +991,7 @@
             <div class="space-y-6">
                 <div><label class="block text-sm font-bold mb-3">Enter 6-Digit Code</label><input id="otpInput" type="text" placeholder="000000" maxlength="6" class="w-full px-4 py-5 bg-white/5 border-2 border-white/10 rounded-xl focus:border-green-500 focus:outline-none transition-all text-white text-center text-3xl font-black tracking-widest" /><p class="text-xs text-white/50 mt-2 text-center">Check your email inbox for the code</p></div>
                 <div id="otpError" style="display:none;" class="bg-red-500/10 border-2 border-red-500/30 rounded-xl p-4 flex items-start gap-3"><svg class="w-6 h-6 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg><div><p class="text-red-400 font-semibold" id="otpErrorText"></p><p class="text-red-300 text-sm mt-1">Please wait...</p></div></div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl"><span class="text-white/70">Time: <span id="timerDisplay" class="font-black text-green-400">60s</span></span><button onclick="handleResend()" id="resendBtn" class="font-bold text-white/40 cursor-not-allowed">Resend Email Code</button></div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl"><span class="text-white/70">Expires in: <span id="timerDisplay" class="font-black text-green-400">60s</span></span><button onclick="handleResend()" id="resendBtn" class="font-bold text-white/40 cursor-not-allowed">Resend Email Code</button></div>
                 <button onclick="handleVerify()" class="w-full btn-primary py-4 text-base rounded-xl">Verify &amp; Start</button>
                 <button onclick="changeEmail()" class="w-full text-white/60 hover:text-white font-semibold">Change Email</button>
             </div>
@@ -1108,7 +1108,7 @@ var authMode = 'signup';
 var email = '';
 var password = '';
 var generatedOTP = '';
-var timer = 60;
+var timer = 300; // 5 minutes
 var timerInterval = null;
 
 function openAuth(mode) {
@@ -1205,13 +1205,19 @@ async function handleContinue() {
 }
 
 function startTimer() {
-    timer = 60;
-    document.getElementById('timerDisplay').textContent = timer + 's';
+    timer = 300; // 5 minutes
+    
+        var mins = Math.floor(timer / 60);
+        var secs = timer % 60;
+        document.getElementById('timerDisplay').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
     document.getElementById('resendBtn').disabled = true;
     document.getElementById('resendBtn').className = 'font-bold text-white/40 cursor-not-allowed';
     timerInterval = setInterval(function() {
         timer--;
-        document.getElementById('timerDisplay').textContent = timer + 's';
+        
+        var mins = Math.floor(timer / 60);
+        var secs = timer % 60;
+        document.getElementById('timerDisplay').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
         if (timer <= 0) {
             clearInterval(timerInterval);
             document.getElementById('resendBtn').disabled = false;
